@@ -1,0 +1,23 @@
+var es6 = require('es6-transpiler')
+
+this.onstaticfile = function (event) {
+
+  var
+    res = event.response,
+    ext = event.ext.toLowerCase()
+
+  if(ext == '.es6'){
+    var code = es6.run({src: event.data}) // todo handling errors
+    res.end(code.src);
+  }
+
+}
+
+/// for debug purpose
+function log(e) {
+  console.log(e);
+}
+
+
+
+

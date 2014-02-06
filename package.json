@@ -1,0 +1,20 @@
+{
+  "name": "sugo",
+  "version": "0.1.0",
+  "description": "Did you ever try polpette al sugo? sugo is a typescript/es6/any possibly other languages like coffeescript debug server, allows to live testing anything that can be transpiled to javascript. this project is meant for fast debugging",
+  "main": "sugo",
+  "scripts": {
+    "test": "echo \"Real man tests in production\" && exit 0"
+  },
+  "keywords": [
+    "typescript", "es6"
+  ],
+  "author": "Cristian Carlesso <@kentaromiura>",
+  "license": "MIT",
+  "dependencies": {
+    "clint" : "0.0.6",
+    "polpetta": "~0.3.10",
+    "node-typescript": "*",
+    "es6-transpiler": "*"
+  }
+}

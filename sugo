@@ -1,0 +1,68 @@
+#!/usr/bin/env nodejs
+
+var clint = require('clint')()
+
+clint.command('--help', '-h', 'General usage information')
+clint.command('--typescript', '-ts', 'Starts typescript server')
+clint.command('--ecmascript6', '-es6', 'Starts es6 server')
+clint.command('--port', '-p', '[port] change port, default 31337')
+clint.command('--ip', '-i', '[ip] change the ip, default 0.0.0.0')
+
+var options = {
+  polpetta: './node_modules/.bin/polpetta',
+  help: false,
+  ts: false,
+  es6: false,
+  none: true,
+  ip: '0.0.0.0',
+  port: 31337
+}
+
+clint.on('command', function(name, value){
+  switch(name){
+    case '--port'       : options.port = value; break
+    case '--ip'         : options.ip = value; break
+    case '--help'       : options.help = true; break
+    case '--typescript' : options.none = false; options.ts   = true; break
+    case '--ecmascript6': options.none = false; options.es6  = true; break
+  }
+})
+
+clint.on('complete', function(){
+  console.log(clint.help(2, " : "))
+
+  if (options.help){
+    console.log('This is the help message')
+    process.exit(0)
+  }
+
+  var args = []
+  if (options.ts  && options.es6){
+    console.log('You cannot select both server in this version')
+    process.exit(0)
+  }
+  
+  if (options.none) {
+    console.log("You didn't select a server")
+  }
+  
+  if (options.ts)  args.push('./ts', options.ip + ':' + options.port)
+  if (options.es6) args.push('./es6', options.ip + ':' + options.port) 
+
+  var spawn = require('child_process').spawn; 
+  var prc = spawn(options.polpetta, args);
+  prc.on('close', function (code) {
+    console.log('process exit code ' + code);
+    process.exit(code)
+  });
+
+
+  prc.stdout.on('data', function (data) {
+    var str = data.toString()
+    var lines = str.split(/(\r?\n)/g);
+    console.log(lines.join(""));
+  });
+
+})
+
+clint.parse(process.argv.slice(2)) 
