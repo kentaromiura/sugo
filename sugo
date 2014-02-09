@@ -1,6 +1,8 @@
 #!/usr/bin/env nodejs
 
 var clint = require('clint')()
+var flow = require('finally')
+
 
 clint.command('--help', '-h', 'General usage information')
 clint.command('--typescript', '-ts', 'Starts typescript server')
@@ -44,25 +46,54 @@ clint.on('complete', function(){
   
   if (options.none) {
     console.log("You didn't select a server")
+    process.exit(2)
   }
-  
-  if (options.ts)  args.push('./ts', options.ip + ':' + options.port)
-  if (options.es6) args.push('./es6', options.ip + ':' + options.port) 
 
   var spawn = require('child_process').spawn; 
-  var prc = spawn(options.polpetta, args);
-  prc.on('close', function (code) {
-    console.log('process exit code ' + code);
-    process.exit(code)
-  });
+  var ƒ = flow();
+	  
+  if (options.ts) {
+    args.push('./ts', options.ip + ':' + options.port)
+    var ts = require('typescript'),
+        need_fix = ts.TypeScriptCompiler == undefined
+
+	if (need_fix) {	
+	  ƒ.then(function(err){
+		var me = this
+	  	var fix = spawn('./fix_typescript.sh')  
+                fix.on('close', function(){
+			me.continue()
+		})
+		fix.stdout.on('data', function(data){
+			console.log(data.toString())
+		})
+	  })
+        }
+  }
+  if (options.es6) args.push('./es6', options.ip + ':' + options.port) 
+  
+var _code
+  ƒ.then(function(err){
+    var me = this
+    var prc = spawn(options.polpetta, args);
+    prc.on('close', function (code) {
+      _code = code
+      console.log('process exit code ' + code);
+      me.continue()
+
+    });
 
 
-  prc.stdout.on('data', function (data) {
-    var str = data.toString()
-    var lines = str.split(/(\r?\n)/g);
-    console.log(lines.join(""));
-  });
+    prc.stdout.on('data', function (data) {
+      var str = data.toString()
+      var lines = str.split(/(\r?\n)/g);
+      console.log(lines.join(""));
+    });
 
+  })
+  ƒ.finally(function(){
+      process.exit(_code)
+  })
 })
 
 clint.parse(process.argv.slice(2)) 

@@ -1,9 +1,6 @@
 var
-    tsc = require('node-typescript/lib/compiler'), 
-    compiler = tsc.compiler;
-
-//  tsc.initDefault(); // seems not needed, bootstrap is faster w/out it
-
+    tsc = require('typescript'), 
+    compiler = new tsc.TypeScriptCompiler;
 
 this.onstaticfile = function (event) {
 
@@ -11,24 +8,21 @@ this.onstaticfile = function (event) {
     req = event.request,
     res = event.response,
     ext = event.ext.toLowerCase(),
-    stdout = new tsc.EmitterIOHost(),
     code = '' + event.data
+    code = tsc.ScriptSnapshot.fromString(code);
 
-if(ext == '.ts'){
+  if(ext == '.ts'){
+    compiler.addFile('0.ts', code); 
+  
+    var result = ''
+    for(var it = compiler.compile(); it.moveNext();){
+  
+      var current = it.current()
+      if(current.outputFiles.length)
+        result = current.outputFiles[0]
+      }
 
-    tsc.resolve('0.ts', code, compiler); 
-
-//  compiler.typeCheck(); // this will slow down things, do that on a proper editor 
-
-    compiler.emit(stdout);
-    res.end(stdout.fileCollection['0.js'].lines.join('\n')); 
-
-//  not sure if needed, keep here for reference
-//  compiler.emitSettings.ioHost.fileCollection['0.js'].lines = []
-//  compiler.units = []
-
-    compiler.scripts.members = []
-
+    res.end(result.text)
     event.preventDefault()
   }
 
