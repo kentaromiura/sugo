@@ -13,8 +13,9 @@
   "license": "MIT",
   "dependencies": {
     "clint" : "0.0.6",
+    "finally": "0.0.4",
     "polpetta": "~0.3.10",
-    "node-typescript": "*",
+    "typescript": "*",
     "es6-transpiler": "*"
   }
 }
