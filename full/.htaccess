@@ -1,0 +1,48 @@
+var
+    tsc = require('typescript'), 
+    compiler = new tsc.TypeScriptCompiler,
+    es6 = require('es6-transpiler')
+
+this.onstaticfile = function (event) {
+
+  var
+    req = event.request,
+    res = event.response,
+    ext = event.ext.toLowerCase(),
+    code = '' + event.data,
+    result;
+
+  if(ext == '.es6'){
+    result = es6.run({src: code}) // todo handling errors
+    res.end(result.src);
+    event.preventDefault()
+  }
+
+  if(ext == '.ts'){
+    code = tsc.ScriptSnapshot.fromString(code);
+
+    compiler.addFile('0.ts', code); 
+  
+    result = ''
+    for(var it = compiler.compile(); it.moveNext();){
+  
+      var current = it.current()
+      if(current.outputFiles.length)
+        result = current.outputFiles[0]
+      }
+
+    res.end(result.text)
+    event.preventDefault()
+  }
+
+}
+
+/// for debug purpose
+function log(e) {
+  console.log(e);
+}
+
+
+
+
+

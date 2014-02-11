@@ -3,8 +3,8 @@
 var clint = require('clint')()
 var flow = require('finally')
 
-
 clint.command('--help', '-h', 'General usage information')
+clint.command('--full', '-f', 'Use all the features at the same time')
 clint.command('--typescript', '-ts', 'Starts typescript server')
 clint.command('--ecmascript6', '-es6', 'Starts es6 server')
 clint.command('--port', '-p', '[port] change port, default 31337')
@@ -15,6 +15,7 @@ var options = {
   help: false,
   ts: false,
   es6: false,
+  full: false,
   none: true,
   ip: '0.0.0.0',
   port: 31337
@@ -27,6 +28,7 @@ clint.on('command', function(name, value){
     case '--help'       : options.help = true; break
     case '--typescript' : options.none = false; options.ts   = true; break
     case '--ecmascript6': options.none = false; options.es6  = true; break
+    case '--full': options.none = options.ts = options.es6 = false; options.full = true; break
   }
 })
 
@@ -71,7 +73,8 @@ clint.on('complete', function(){
         }
   }
   if (options.es6) args.push('./es6', options.ip + ':' + options.port) 
-  
+  if (options.full) args.push('./full', options.ip + ':' + options.port)
+
 var _code
   ƒ.then(function(err){
     var me = this
