@@ -1,16 +1,20 @@
 {
   "name": "sugo",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Did you ever try polpette al sugo? sugo is a typescript/es6/any possibly other languages like coffeescript debug server, allows to live testing anything that can be transpiled to javascript. this project is meant for fast debugging",
   "main": "sugo",
+  "homepage":"http://github.com/kentaromiura/sugo",
   "scripts": {
     "test": "echo \"Real man tests in production\" && exit 0"
   },
   "keywords": [
     "typescript", "es6"
   ],
-  "author": "Cristian Carlesso <@kentaromiura>",
+  "author": "Cristian Carlesso <@kentaromiura> (https://github.com/kentaromiura)",
   "license": "MIT",
+  "bugs":{
+    "url": "https://github.com/kentaromiura/sugo/issues"
+  },
   "dependencies": {
     "clint" : "0.0.6",
     "finally": "0.0.4",
@@ -19,3 +23,4 @@
     "es6-transpiler": "*"
   }
 }
+

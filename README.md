@@ -15,3 +15,12 @@ Why should I use sugo?
 
 
 I have a bit of TODOs in mind, but please feel free to add any suggestion through GitHub Issue
+
+
+FAQ:
+====
+
+Why don't you .gitignore node_modules?
+--------------------------------------
+Because I want sugo to be ready for testing as soon as one clones the project, even without running `npm install`
+
