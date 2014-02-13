@@ -1,0 +1,24 @@
+var react = require('react-tools')
+
+this.onstaticfile = function (event) {
+
+  var
+    res = event.response,
+    ext = event.ext.toLowerCase()
+
+  if(ext == '.jsx'){
+    var code = react.transform(event.data)
+    res.end(code);
+    event.preventDefault()
+  }
+
+}
+
+/// for debug purpose
+function log(e) {
+  console.log(e);
+}
+
+
+
+

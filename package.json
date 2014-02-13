@@ -20,7 +20,8 @@
     "finally": "0.0.4",
     "polpetta": "~0.3.10",
     "typescript": "*",
-    "es6-transpiler": "*"
+    "es6-transpiler": "*",
+    "react-tools": "*"
   }
 }
 

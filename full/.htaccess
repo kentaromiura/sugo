@@ -1,7 +1,8 @@
 var
     tsc = require('typescript'), 
     compiler = new tsc.TypeScriptCompiler,
-    es6 = require('es6-transpiler')
+    es6 = require('es6-transpiler'),
+    react = require('react-tools')
 
 this.onstaticfile = function (event) {
 
@@ -32,6 +33,12 @@ this.onstaticfile = function (event) {
       }
 
     res.end(result.text)
+    event.preventDefault()
+  }
+
+  if(ext == '.jsx'){
+    var code = react.transform(event.data)
+    res.end(code);
     event.preventDefault()
   }
 
