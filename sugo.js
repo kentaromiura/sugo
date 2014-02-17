@@ -30,16 +30,22 @@ function fullerize(){
   options.none = options.wrapup = options.ts = options.es6 = options.react = false; options.full = true;
 }
 
+function set(option){
+  selections ++
+  options.none = false
+  options[option] = true
+}
+
 clint.on('command', function(name, value){
   switch(name){
     case '--port'       : options.port = value; break
     case '--ip'         : options.ip = value; break
     case '--help'       : options.help = true; break
 
-    case '--wrapup'     : selections++; options.none = false; options.wrapup = true; break
-    case '--react'      : selections++; options.none = false; options.react = true; break
-    case '--typescript' : selections++; options.none = false; options.ts   = true; break
-    case '--ecmascript6': selections++; options.none = false; options.es6  = true; break
+    case '--wrapup'     : set('wrapup'); break
+    case '--react'      : set('react'); break
+    case '--typescript' : set('ts'); break
+    case '--ecmascript6': set('es6'); break
 
     case '--full': selections++; fullerize(); break
   }
@@ -49,7 +55,7 @@ clint.on('complete', function(){
   console.log(clint.help(2, " : "))
 
   if (options.help){
-    console.log('This is the help message')
+    console.log('This is the help message, yeah, it\' s not very useful.')
     process.exit(0)
   }
 
@@ -85,6 +91,7 @@ clint.on('complete', function(){
 	  })
         }
   }
+
   if (options.es6)    args.push('./es6') 
   if (options.react)  args.push('./react')
   if (options.full)   args.push('./full')
