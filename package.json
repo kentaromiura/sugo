@@ -16,6 +16,7 @@
     "url": "https://github.com/kentaromiura/sugo/issues"
   },
   "dependencies": {
+    "wrapup": "*",
     "clint" : "0.0.6",
     "finally": "0.0.4",
     "polpetta": "~0.3.10",

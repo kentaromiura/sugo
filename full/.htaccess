@@ -2,7 +2,8 @@ var
     tsc = require('typescript'), 
     compiler = new tsc.TypeScriptCompiler,
     es6 = require('es6-transpiler'),
-    react = require('react-tools')
+    react = require('react-tools'),
+    wrapup = require('wrapup')
 
 this.onstaticfile = function (event) {
 
@@ -13,13 +14,15 @@ this.onstaticfile = function (event) {
     code = '' + event.data,
     result;
 
-  if(ext == '.es6'){
+  switch(ext){
+
+  case '.es6':
     result = es6.run({src: code}) // todo handling errors
     res.end(result.src);
     event.preventDefault()
-  }
+  break;
 
-  if(ext == '.ts'){
+  case '.ts':
     code = tsc.ScriptSnapshot.fromString(code);
 
     compiler.addFile('0.ts', code); 
@@ -34,12 +37,25 @@ this.onstaticfile = function (event) {
 
     res.end(result.text)
     event.preventDefault()
-  }
+  break;
 
-  if(ext == '.jsx'){
+  case '.jsx':
     var code = react.transform(event.data)
     res.end(code);
     event.preventDefault()
+  break;
+
+  case '.wrup':
+    var wrup = new wrapup(),
+        result = ''
+
+    wrup.require(event.path)
+    wrup.up(function(error, result){
+      res.end(result)
+    })
+    event.preventDefault()
+  break;
+
   }
 
 }
@@ -48,8 +64,6 @@ this.onstaticfile = function (event) {
 function log(e) {
   console.log(e);
 }
-
-
 
 
 
