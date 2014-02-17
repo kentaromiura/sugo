@@ -16,6 +16,13 @@ Why should I use sugo?
 
 I have a bit of TODOs in mind, but please feel free to add any suggestion through GitHub Issue
 
+Install
+=======
+
+Sugo is hosted on github but also on npm, you can install it by typing
+
+`npm install sugo`
+
 
 FAQ:
 ====
