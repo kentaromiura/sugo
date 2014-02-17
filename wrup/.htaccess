@@ -1,0 +1,26 @@
+var wrapup = require('wrapup')
+this.onstaticfile = function (event) {
+
+  var
+    req = event.request,
+    res = event.response,
+    ext = event.ext.toLowerCase(),
+    code = '' + event.data
+
+  if(ext == '.wrup'){
+    var wrup = new wrapup(),
+        result = ''
+
+    wrup.require(event.path)
+    wrup.up(function(error, result){
+      res.end(result)
+    })
+    event.preventDefault()
+  }
+
+}
+
+/// for debug purpose
+function log(e) {
+  console.log(e);
+}

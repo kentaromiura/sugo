@@ -7,6 +7,7 @@ clint.command('--full', '-f', 'Use all the features at the same time')
 clint.command('--typescript', '-ts', 'Starts typescript server')
 clint.command('--ecmascript6', '-es6', 'Starts es6 server')
 clint.command('--react', '-r', 'Starts react jsx server')
+clint.command('--wrapup', '-w', 'Starts the wrapup server')
 
 clint.command('--port', '-p', '[port] change port, default 31337')
 clint.command('--ip', '-i', '[ip] change the ip, default 0.0.0.0')
@@ -17,6 +18,7 @@ var options = {
   react : false,
   ts: false,
   es6: false,
+  wrapup: false,
   full: false,
   none: true,
   ip: '0.0.0.0',
@@ -25,7 +27,7 @@ var options = {
 var selections = 0;
 
 function fullerize(){
-  options.none = options.ts = options.es6 = options.react = false; options.full = true;
+  options.none = options.wrapup = options.ts = options.es6 = options.react = false; options.full = true;
 }
 
 clint.on('command', function(name, value){
@@ -33,9 +35,12 @@ clint.on('command', function(name, value){
     case '--port'       : options.port = value; break
     case '--ip'         : options.ip = value; break
     case '--help'       : options.help = true; break
-    case '--react'      : selections++; options.react = true; break
+
+    case '--wrapup'     : selections++; options.none = false; options.wrapup = true; break
+    case '--react'      : selections++; options.none = false; options.react = true; break
     case '--typescript' : selections++; options.none = false; options.ts   = true; break
     case '--ecmascript6': selections++; options.none = false; options.es6  = true; break
+
     case '--full': selections++; fullerize(); break
   }
 })
@@ -80,9 +85,10 @@ clint.on('complete', function(){
 	  })
         }
   }
-  if (options.es6)   args.push('./es6') 
-  if (options.react) args.push('./react')
-  if (options.full)  args.push('./full')
+  if (options.es6)    args.push('./es6') 
+  if (options.react)  args.push('./react')
+  if (options.full)   args.push('./full')
+  if (options.wrapup) args.push('./wrup')
 
   args.push(options.ip + ':' + options.port)
 
