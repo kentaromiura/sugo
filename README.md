@@ -3,7 +3,7 @@ sugo
 
 Sugo is an helper built on top of [polpetta](http://github.com/WebReflection/polpetta), it lets developers testing applications using new transpiler technologies.
 
-Sugo initially supports only TypeScript and ES6, but it can be expanded to support any kind of transpilers.
+Sugo supports [TypeScript](http://www.typescriptlang.org/), ES6, and [Facebook React JS](http://facebook.github.io/react/) and it can be expanded to support any kind of transpilers.
 
 Why should I use sugo?
 ======================
