@@ -73,8 +73,8 @@ clint.on('complete', function(){
   var spawn = require('child_process').spawn; 
   var ƒ = flow();
 	  
-  if (options.ts) {
-    args.push('./ts')
+  if (options.full || options.ts) {
+    if (options.ts) args.push('./ts')
     var ts = require('typescript'),
         need_fix = ts.TypeScriptCompiler == undefined
 
