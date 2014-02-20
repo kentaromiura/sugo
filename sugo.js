@@ -9,6 +9,7 @@ clint.command('--ecmascript6', '-es6', 'Starts es6 server')
 clint.command('--react', '-r', 'Starts react jsx server')
 clint.command('--wrapup', '-w', 'Starts the wrapup server')
 
+clint.command('--open', '-o', 'opens the directory where polpetta runs')
 clint.command('--port', '-p', '[port] change port, default 31337')
 clint.command('--ip', '-i', '[ip] change the ip, default 0.0.0.0')
 
@@ -22,7 +23,8 @@ var options = {
   full: false,
   none: true,
   ip: '0.0.0.0',
-  port: 31337
+  port: 31337,
+  open: false
 }
 var selections = 0;
 
@@ -38,6 +40,7 @@ function set(option){
 
 clint.on('command', function(name, value){
   switch(name){
+    case '--open'       : options.open = true; break
     case '--port'       : options.port = value; break
     case '--ip'         : options.ip = value; break
     case '--help'       : options.help = true; break
@@ -99,7 +102,12 @@ clint.on('complete', function(){
 
   args.push(options.ip + ':' + options.port)
 
-
+  if(options.open){
+    ƒ.then(function(){
+      var o = spawn('open', [args[0]])
+      this.continue()
+    })
+  }
 var _code
   ƒ.then(function(err){
     var me = this
