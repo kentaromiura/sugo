@@ -1,0 +1,19 @@
+var cs = require('coffee-script')
+
+this.onstaticfile = function (event) {
+
+  var
+    res = event.response,
+    ext = event.ext.toLowerCase()
+
+  if(ext == '.coffee'){
+    var code = cs.compile( event.data ) // todo handling errors
+    res.end(code);
+  }
+
+}
+
+/// for debug purpose
+function log(e) {
+  console.log(e);
+}
